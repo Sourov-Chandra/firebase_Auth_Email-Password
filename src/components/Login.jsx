@@ -1,11 +1,12 @@
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router';
+import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navigate = useNavigate("")
+    const navigate = useNavigate()
     const [error, setError] = useState("")
 
     const auth = getAuth();
@@ -38,6 +39,7 @@ const Login = () => {
           Please Login
         </h1>
 
+        {/* Login Form */}
         <form action="" onSubmit={handleLogin} className="space-y-4">
           <div>
             <label className=" block mb-2 text-sm font-medium text-gray-700">
@@ -70,9 +72,7 @@ const Login = () => {
             />
           </div>
 
-          {error && (
-            <p className='text-sm italic text-red-500'>{error}</p>
-          )}
+          {error && <p className="text-sm italic text-red-500">{error}</p>}
 
           <button
             type="submit"
@@ -81,6 +81,28 @@ const Login = () => {
             Sign In
           </button>
         </form>
+
+        {/* Social Login */}
+                    <div className=" text-center space-y-3">
+                      <p className="text-gray-600">Or login with</p>
+        
+                      <div className="flex justify-center space-x-4">
+                        <button className="flex items-center px-4 py-2 rounded bg-red-500 hover:bg-red-600 text-white space-x-2">
+                          <FaGoogle />
+                          <span>Google</span>
+                        </button>
+                        <button className="flex items-center px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white space-x-2">
+                          <FaFacebook />
+                          <span>Facebook</span>
+                        </button>
+                        <button className="flex items-center px-4 py-2 rounded bg-gray-500 hover:bg-gray-600 text-white space-x-2">
+                          <FaGithub />
+                          <span>Github</span>
+                        </button>
+                      </div>
+                    </div>
+
+        {/* text */}
         <p className="text-sm text-center text-gray-600">
           Don't have an account? Please
           <Link to="/register" className="text-blue-600 hover:underline">
