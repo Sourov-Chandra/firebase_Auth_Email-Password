@@ -1,7 +1,8 @@
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider} from 'firebase/auth';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router';
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
+import app from '../firebase/firebase.config';
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -9,7 +10,9 @@ const Login = () => {
     const navigate = useNavigate()
     const [error, setError] = useState("")
 
-    const auth = getAuth();
+    const auth = getAuth(app);
+
+   
 
     const handleLogin = (e) =>{
         e.preventDefault()
@@ -24,7 +27,6 @@ const Login = () => {
             // ...
           })
           .catch((error) => {
-            const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorMessage);
             setError(
@@ -32,6 +34,48 @@ const Login = () => {
             );
           });
     }
+
+    const handleGoogleLogin = () => {
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          console.log("Google login successful", user);
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log("Google login failed", error);
+        });
+    };
+
+    const handleFacebookLogin = ()=>{
+      const provider = new FacebookAuthProvider();
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          // The signed-in user info.
+          const user = result.user;
+          console.log("Facebook login successful", user);
+          navigate("/")
+        })
+        .catch((error) => {
+          console.log("Facebook login error: " + error);
+        });
+    }
+
+    const handleGithubLogin = () =>{
+      const githubProvider = new GithubAuthProvider();
+      const auth = getAuth();
+      signInWithPopup(auth, githubProvider)
+        .then((result) => {
+          const user = result.user;
+          console.log("Github login successful", user);
+        })
+        .catch((error) => {
+          console.error("Github login failed", error)
+          // ...
+        });
+    }
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white w-full max-w-md p-8 rounded-lg shadow-md space-y-6">
@@ -87,15 +131,17 @@ const Login = () => {
                       <p className="text-gray-600">Or login with</p>
         
                       <div className="flex justify-center space-x-4">
-                        <button className="flex items-center px-4 py-2 rounded bg-red-500 hover:bg-red-600 text-white space-x-2">
+                        <button 
+                        onClick={handleGoogleLogin}
+                         className="flex items-center cursor-pointer px-4 py-2 rounded bg-red-500 hover:bg-red-600 text-white space-x-2">
                           <FaGoogle />
                           <span>Google</span>
                         </button>
-                        <button className="flex items-center px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white space-x-2">
+                        <button onClick={handleFacebookLogin} className="flex items-center cursor-pointer px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white space-x-2">
                           <FaFacebook />
                           <span>Facebook</span>
                         </button>
-                        <button className="flex items-center px-4 py-2 rounded bg-gray-500 hover:bg-gray-600 text-white space-x-2">
+                        <button onClick={handleGithubLogin} className="flex items-center cursor-pointer px-4 py-2 rounded bg-gray-500 hover:bg-gray-600 text-white space-x-2">
                           <FaGithub />
                           <span>Github</span>
                         </button>
