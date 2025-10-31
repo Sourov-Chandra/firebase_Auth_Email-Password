@@ -2,10 +2,13 @@ import React from 'react'
 import { getAuth, signOut } from "firebase/auth";
 import app from '../firebase/firebase.config';
 import AuthState from './AuthState';
+import { useAuth } from '../context/AuthContext';
+
 
 const Logout = () => {
-
     const auth = getAuth(app);
+
+    const {currentUser} = useAuth()
 
     const handleLogout = ()=>{
         signOut(auth)
