@@ -10,9 +10,11 @@ const auth = getAuth(app);
 export const AuthProvider = ({children})=>{
 
   const [currentUser, setCurrentUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(()=>{
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setLoading(false)
     if (user) {
       /* console.log("Auth Provider is", user); */
       setCurrentUser(user)
@@ -22,7 +24,7 @@ export const AuthProvider = ({children})=>{
 
 }, [auth])
 
-  const value = {currentUser}
+  const value = {currentUser, loading}
   return(
     <AuthContext.Provider value={value}>
       {children}
