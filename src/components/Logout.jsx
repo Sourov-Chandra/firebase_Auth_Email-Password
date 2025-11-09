@@ -23,6 +23,7 @@ const Logout = () => {
     }
   return (
     <div className='mt-6'>
+      <p className='font-medium mb-3'>User: {currentUser?.displayName || "Not set yet"}</p>
       <button onClick={handleLogout} className="px-4 py-2 text-white bg-sky-600 rounded-md ">Logout</button>
 
       <AuthState />

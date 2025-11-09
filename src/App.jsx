@@ -33,6 +33,22 @@ const App = () => {
                   Dashboard
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/user-profile"
+                  className="px-6 py-2 rounded bg-blue-500 hover:bg-blue-700 text-white"
+                >
+                  UserProfile
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/update-password"
+                  className="px-6 py-2 rounded bg-blue-500 hover:bg-blue-700 text-white"
+                >
+                  Reset Password
+                </Link>
+              </li>
             </ul>
           </nav>
 

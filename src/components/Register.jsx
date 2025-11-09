@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import app from "../firebase/firebase.config";
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 
@@ -8,6 +8,7 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const [message, setMessage] = useState("")
 
     // console.log('Email:', email);
     // console.log("Password: ", password);
@@ -21,11 +22,19 @@ const Register = () => {
             .then((userCredential) => {
                 // Signed up
                 const user = userCredential.user;
-        
-                alert("User Registration Successful");
-                navigate("/login")
-                console.log("User Signed: ", user);
-                // ...
+
+                sendEmailVerification(user)
+                .then(() => {
+                  setMessage("Registration successfully! A verification email has been sent to your email address.")
+                  console.log("Varification has been sent to your email: ", user.email);
+                }).catch(error => console.error("Error sending varification email", error.message))
+                ;
+                setTimeout(() => {
+                  alert("User Registration Successful");
+                  navigate("/login");
+                  console.log("User Signed: ", user);
+                }, 5000);
+                
             })
             .catch((error) => {
                 const errorCode = error.code;
