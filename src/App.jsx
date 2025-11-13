@@ -49,6 +49,14 @@ const App = () => {
                   Reset Password
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/password-less-signin"
+                  className="px-6 py-2 rounded bg-blue-500 hover:bg-blue-700 text-white"
+                >
+                  Passwordless Sign In
+                </Link>
+              </li>
             </ul>
           </nav>
 
